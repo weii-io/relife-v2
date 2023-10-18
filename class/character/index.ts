@@ -13,31 +13,31 @@ export class Character {
     protected _money: number = 0
   ) {}
 
-  name() {
+  get name() {
     return this._name;
   }
 
-  age() {
+  get age() {
     return this._age;
   }
 
-  gender() {
+  get gender() {
     return this._gender;
   }
 
-  occupation() {
+  get occupation() {
     return this._occupation;
   }
 
-  physical_health() {
+  get physical_health() {
     return this._physical_health;
   }
 
-  mental_health() {
+  get mental_health() {
     return this._mental_health;
   }
 
-  money() {
+  get money() {
     return this._money;
   }
 }
