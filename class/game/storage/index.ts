@@ -1,4 +1,4 @@
-export class Storage {
+export class GameStorage {
   private db!: IDBDatabase;
 
   constructor(private dbName: string, private version: number) {
