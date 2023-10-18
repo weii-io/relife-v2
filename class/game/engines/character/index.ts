@@ -1,1 +1,6 @@
-export class CharacterEngine {}
+export class CharacterEngine {
+  constructor() {}
+
+  generateNPC() {}
+  removeNPC() {}
+}

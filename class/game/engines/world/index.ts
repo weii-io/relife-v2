@@ -1,1 +1,5 @@
-export class WorldEngine {}
+export class WorldEngine {
+  constructor() {}
+
+  generateWorld() {}
+}
