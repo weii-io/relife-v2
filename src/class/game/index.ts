@@ -1,38 +1,41 @@
+import { GENDER } from "../../type";
 import { Player } from "../player";
 import { CharacterEngine } from "./engines/character";
 import { PlayerEngine } from "./engines/player";
 import { WorldEngine } from "./engines/world";
 import { GameStorage } from "./storage";
+import Chance from "chance";
+
+const chance = new Chance();
 
 export class Game {
   protected _version: number = 2;
   protected _name = "relife";
   protected _storage: GameStorage = new GameStorage(this.name, this.version);
 
-  constructor(
-    protected _character_engine: CharacterEngine = new CharacterEngine(),
-    protected _player_engine: PlayerEngine = new PlayerEngine(
+  protected _character_engine: CharacterEngine | null = null;
+  protected _player_engine: PlayerEngine | null = null;
+  protected _world_engine: WorldEngine | null = null;
+
+  constructor() {
+    this._character_engine = new CharacterEngine();
+
+    const PLAYER_GENDER = chance.gender().toLowerCase() as GENDER;
+
+    this._player_engine = new PlayerEngine(
       new Player(
-        // TODO: will generate random name
-        "John Doe",
-        // TODO: will generate random age,
+        chance.name({ gender: PLAYER_GENDER }),
         0,
-        // TODO: will generate random gender,
-        "male",
-        // TODO: will generate random occupation,
+        PLAYER_GENDER,
         null,
-        // TODO: will generate random physical health,
         100,
-        // TODO: will generate random mental health
         100,
-        //  TODO: will generate random money,
         0,
-        // TODO: will generate empty inventory
         []
       )
-    ),
-    protected _world_engine: WorldEngine = new WorldEngine()
-  ) {}
+    );
+    this._world_engine = new WorldEngine();
+  }
 
   get version() {
     return this._version;
