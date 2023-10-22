@@ -13,21 +13,21 @@ export class Game {
     protected _character_engine: CharacterEngine = new CharacterEngine(),
     protected _player_engine: PlayerEngine = new PlayerEngine(
       new Player(
-        // will generate random name
+        // TODO: will generate random name
         "John Doe",
-        // will generate random age,
+        // TODO: will generate random age,
         0,
-        // will generate random gender,
+        // TODO: will generate random gender,
         "male",
-        // will generate random occupation,
+        // TODO: will generate random occupation,
         null,
-        // will generate random physical health,
+        // TODO: will generate random physical health,
         100,
-        // will generate random mental health
+        // TODO: will generate random mental health
         100,
-        //  will generate random money,
+        //  TODO: will generate random money,
         0,
-        // will generate empty inventory
+        // TODO: will generate empty inventory
         []
       )
     ),

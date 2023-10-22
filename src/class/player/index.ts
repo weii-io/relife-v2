@@ -13,7 +13,7 @@ export class Player extends Character implements IPlayer {
     protected _physical_health: number = 100,
     protected _mental_health: number = 100,
     protected _money: number = 0,
-    protected _inventory: [] = []
+    protected _inventory: string[] = []
   ) {
     super(
       _name,
