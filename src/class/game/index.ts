@@ -1,4 +1,5 @@
 import { GENDER } from "../../type";
+import { Health } from "../health/health";
 import { Player } from "../player";
 import { CharacterEngine } from "./engines/character";
 import { PlayerEngine } from "./engines/player";
@@ -23,14 +24,14 @@ export class Game {
     this._character_engine = new CharacterEngine();
 
     const PLAYER_GENDER = chance.gender().toLowerCase() as GENDER;
+    const PLAYER_HEALTH = new Health(100, 100);
 
     this._player = new Player(
       chance.name({ gender: PLAYER_GENDER }),
       0,
       PLAYER_GENDER,
       null,
-      100,
-      100,
+      PLAYER_HEALTH,
       0,
       []
     );
