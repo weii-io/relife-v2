@@ -1,43 +1,65 @@
+import { ICharacter } from "../../interface/character";
 import { GENDER } from "../../type";
 
-export class Character {
+export class Character implements ICharacter {
   constructor(
     protected _name: string,
     protected _age: number,
     protected _gender: GENDER,
-    // TODO: expand occupation into class
-    protected _occupation: string,
-    // TODO: expand physical health and mental health into health class
+    protected _occupation: string | null = null,
     protected _physical_health: number = 100,
     protected _mental_health: number = 100,
-    protected _money: number = 0
+    protected _money = 0
   ) {}
 
   get name() {
     return this._name;
   }
 
+  set name(value: string) {
+    this._name = value;
+  }
+
   get age() {
     return this._age;
   }
-
-  get gender() {
+  get gender(): GENDER {
     return this._gender;
   }
 
-  get occupation() {
+  set gender(value: GENDER) {
+    this._gender = value;
+  }
+
+  get occupation(): string | null {
     return this._occupation;
   }
 
-  get physical_health() {
+  set occupation(value: string | null) {
+    this._occupation = value;
+  }
+
+  get physical_health(): number {
     return this._physical_health;
   }
 
-  get mental_health() {
+  set physical_health(value: number) {
+    this._physical_health = value;
+  }
+
+  get mental_health(): number {
     return this._mental_health;
   }
 
-  get money() {
+  set mental_health(value: number) {
+    this._mental_health = value;
+  }
+
+  get money(): number {
     return this._money;
+  }
+
+  set money(value: number) {
+    this._money = value;
   }
 }
