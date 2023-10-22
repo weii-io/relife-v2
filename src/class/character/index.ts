@@ -1,5 +1,6 @@
 import { ICharacter } from "../../interface/character";
 import { GENDER } from "../../type";
+import { Health } from "../health/health";
 
 export class Character implements ICharacter {
   constructor(
@@ -7,8 +8,7 @@ export class Character implements ICharacter {
     protected _age: number,
     protected _gender: GENDER,
     protected _occupation: string | null = null,
-    protected _physical_health: number = 100,
-    protected _mental_health: number = 100,
+    protected _health: Health = new Health(100, 100),
     protected _money = 0
   ) {}
 
@@ -39,20 +39,12 @@ export class Character implements ICharacter {
     this._occupation = value;
   }
 
-  get physical_health(): number {
-    return this._physical_health;
+  get health() {
+    return this._health;
   }
 
-  set physical_health(value: number) {
-    this._physical_health = value;
-  }
-
-  get mental_health(): number {
-    return this._mental_health;
-  }
-
-  set mental_health(value: number) {
-    this._mental_health = value;
+  set health(value: Health) {
+    this.health = value;
   }
 
   get money(): number {

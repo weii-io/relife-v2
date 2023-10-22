@@ -2,6 +2,7 @@ import { Serializable } from "../../decorator/serializable.decorator";
 import { IPlayer } from "../../interface/player";
 import { GENDER } from "../../type";
 import { Character } from "../character";
+import { Health } from "../health/health";
 
 @Serializable
 export class Player extends Character implements IPlayer {
@@ -11,21 +12,11 @@ export class Player extends Character implements IPlayer {
     protected _gender: GENDER,
     // TODO: expand occupation into class
     protected _occupation: string | null,
-    // TODO: expand physical health and mental health into health class
-    protected _physical_health: number = 100,
-    protected _mental_health: number = 100,
+    protected _health: Health,
     protected _money: number = 0,
     protected _inventory: string[] = []
   ) {
-    super(
-      _name,
-      _age,
-      _gender,
-      _occupation,
-      _physical_health,
-      _mental_health,
-      _money
-    );
+    super(_name, _age, _gender, _occupation, _health, _money);
   }
 
   get inventory() {
