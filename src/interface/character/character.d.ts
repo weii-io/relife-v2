@@ -1,13 +1,12 @@
-import { GENDER } from "../../src/type";
+import { Health } from "../../class/health/health";
+import { Occupation } from "../../class/occupation";
+import { GENDER } from "../../type";
 
 export interface ICharacter {
   name: string;
   age: number;
   gender: GENDER;
-  // TODO: expand occupation into class
-  occupation: string | null;
-  // TODO: expand physical health and mental health into health class
-  physical_health: number;
-  mental_health: number;
+  occupation: Occupation | null;
+  health: Health;
   money: number;
 }

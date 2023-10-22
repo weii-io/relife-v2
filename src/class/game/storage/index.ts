@@ -25,6 +25,51 @@ export class GameStorage {
     };
   }
 
-  public write(instance: Object) {}
-  public read() {}
+  public write(objectStoreName: string, key: any, data: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([objectStoreName], "readwrite");
+      const objectStore = transaction.objectStore(objectStoreName);
+
+      // Combining the key with the data
+      const combinedData = { ...data, id: key };
+
+      const request = objectStore.put(combinedData);
+
+      request.onerror = (event) => {
+        console.error(
+          `Error writing to ${objectStoreName} in IndexedDB:`,
+          event
+        );
+        reject(event);
+      };
+
+      request.onsuccess = () => {
+        resolve();
+      };
+    });
+  }
+
+  public read(objectStoreName: string, key: any): Promise<any | null> {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([objectStoreName], "readonly");
+      const objectStore = transaction.objectStore(objectStoreName);
+      const request = objectStore.get(key);
+
+      request.onerror = (event) => {
+        console.error(
+          `Error reading from ${objectStoreName} in IndexedDB:`,
+          event
+        );
+        reject(event);
+      };
+
+      request.onsuccess = () => {
+        if (request.result) {
+          resolve(request.result);
+        } else {
+          resolve(null);
+        }
+      };
+    });
+  }
 }
