@@ -1,4 +1,4 @@
-import { GENDER } from "../../type";
+import { GENDER } from "../../src/type";
 
 export interface ICharacter {
   name: string;
