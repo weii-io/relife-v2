@@ -17,23 +17,24 @@ export class Game {
   protected _player_engine: PlayerEngine | null = null;
   protected _world_engine: WorldEngine | null = null;
 
+  protected _player: Player | null;
+
   constructor() {
     this._character_engine = new CharacterEngine();
 
     const PLAYER_GENDER = chance.gender().toLowerCase() as GENDER;
 
-    this._player_engine = new PlayerEngine(
-      new Player(
-        chance.name({ gender: PLAYER_GENDER }),
-        0,
-        PLAYER_GENDER,
-        null,
-        100,
-        100,
-        0,
-        []
-      )
+    this._player = new Player(
+      chance.name({ gender: PLAYER_GENDER }),
+      0,
+      PLAYER_GENDER,
+      null,
+      100,
+      100,
+      0,
+      []
     );
+    this._player_engine = new PlayerEngine(this.player);
     this._world_engine = new WorldEngine();
   }
 
@@ -43,5 +44,13 @@ export class Game {
 
   get name() {
     return this._name;
+  }
+
+  get player() {
+    return this._player as Player;
+  }
+
+  get player_engine() {
+    return this._player_engine as PlayerEngine;
   }
 }

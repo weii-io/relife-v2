@@ -62,4 +62,6 @@ export class Character implements ICharacter {
   set money(value: number) {
     this._money = value;
   }
+
+  serializable() {}
 }

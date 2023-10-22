@@ -11,6 +11,7 @@
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
     "chance": "^1.1.11",
+    "circular-json": "^0.5.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -42,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@types/chance": "^1.1.5"
+    "@types/chance": "^1.1.5",
+    "@types/circular-json": "^0.4.0"
   }
 }
