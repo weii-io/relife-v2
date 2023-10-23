@@ -1,11 +1,16 @@
-export class Health {
-  constructor(
-    protected _physicalHealth: number,
-    protected _mentalHealth: number
-  ) {}
+import { IHealth } from "../../interface/health";
+
+export class Health implements IHealth {
+  protected _physicalHealth?: number = undefined;
+  protected _mentalHealth?: number = undefined;
+
+  constructor(properties: IHealth) {
+    this._physicalHealth = properties.physicalHealth;
+    this._mentalHealth = properties.mentalHealth;
+  }
 
   get physicalHealth() {
-    return this._physicalHealth;
+    return this._physicalHealth as number;
   }
 
   set physicalHealth(value: number) {
@@ -13,7 +18,7 @@ export class Health {
   }
 
   get mentalHealth() {
-    return this._physicalHealth;
+    return this._physicalHealth as number;
   }
 
   set mentalHealth(value: number) {
