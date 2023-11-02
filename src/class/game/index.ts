@@ -71,14 +71,14 @@ export class Game {
   }
 
   set worldEngine(value: WorldEngine) {
-    this.worldEngine = value;
+    this._worldEngine = value;
   }
 
   set characterEngine(value: CharacterEngine) {
-    this.characterEngine = value;
+    this._characterEngine = value;
   }
 
   set playerEngine(value: PlayerEngine) {
-    this.playerEngine = value;
+    this._playerEngine = value;
   }
 }
