@@ -1,5 +1,6 @@
 import { GENDER } from "../../type";
 import { Health } from "../health/health";
+import { Occupation } from "../occupation";
 import { Player } from "../player";
 import { CharacterEngine } from "./engines/character";
 import { PlayerEngine } from "./engines/player";
@@ -28,12 +29,13 @@ export class Game {
       mentalHealth: 100,
     });
 
+    // generate player
     this._playerEngine = new PlayerEngine(
       new Player({
         name: PLAYER_NAME,
         age: 0,
         gender: PLAYER_GENDER,
-        occupation: undefined,
+        occupation: new Occupation("infant", 0),
         health: PLAYER_HEALTH,
         money: 0,
         inventory: [],
