@@ -1,5 +1,6 @@
 import { GENDER } from "../../type";
 import { Health } from "../health/health";
+import { Occupation } from "../occupation";
 import { Player } from "../player";
 import { CharacterEngine } from "./engines/character";
 import { PlayerEngine } from "./engines/player";
@@ -14,29 +15,33 @@ export class Game {
   protected _name = "relife";
   protected _storage: GameStorage = new GameStorage(this.name, this.version);
 
-  protected _character_engine: CharacterEngine | null = null;
-  protected _player_engine: PlayerEngine | null = null;
-  protected _world_engine: WorldEngine | null = null;
-
-  protected _player: Player | null;
+  protected _characterEngine: CharacterEngine | null = null;
+  protected _playerEngine: PlayerEngine | null = null;
+  protected _worldEngine: WorldEngine | null = null;
 
   constructor() {
-    this._character_engine = new CharacterEngine();
+    this._characterEngine = new CharacterEngine();
 
     const PLAYER_GENDER = chance.gender().toLowerCase() as GENDER;
-    const PLAYER_HEALTH = new Health(100, 100);
+    const PLAYER_NAME = chance.name({ gender: PLAYER_GENDER });
+    const PLAYER_HEALTH = new Health({
+      physicalHealth: 100,
+      mentalHealth: 100,
+    });
 
-    this._player = new Player(
-      chance.name({ gender: PLAYER_GENDER }),
-      0,
-      PLAYER_GENDER,
-      null,
-      PLAYER_HEALTH,
-      0,
-      []
+    // generate player
+    this._playerEngine = new PlayerEngine(
+      new Player({
+        name: PLAYER_NAME,
+        age: 0,
+        gender: PLAYER_GENDER,
+        occupation: new Occupation("infant", 0),
+        health: PLAYER_HEALTH,
+        money: 0,
+        inventory: [],
+      })
     );
-    this._player_engine = new PlayerEngine(this.player);
-    this._world_engine = new WorldEngine();
+    this._worldEngine = new WorldEngine();
   }
 
   get version() {
@@ -47,11 +52,35 @@ export class Game {
     return this._name;
   }
 
-  get player() {
-    return this._player as Player;
+  get storage() {
+    return this._storage;
   }
 
-  get player_engine() {
-    return this._player_engine as PlayerEngine;
+  get player() {
+    return this.playerEngine.player as Player;
+  }
+
+  get worldEngine() {
+    return this._worldEngine as WorldEngine;
+  }
+
+  get characterEngine() {
+    return this._characterEngine as CharacterEngine;
+  }
+
+  get playerEngine() {
+    return this._playerEngine as PlayerEngine;
+  }
+
+  set worldEngine(value: WorldEngine) {
+    this._worldEngine = value;
+  }
+
+  set characterEngine(value: CharacterEngine) {
+    this._characterEngine = value;
+  }
+
+  set playerEngine(value: PlayerEngine) {
+    this._playerEngine = value;
   }
 }

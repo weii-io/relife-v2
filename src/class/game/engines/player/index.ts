@@ -1,6 +1,7 @@
 import { Player } from "../../../player";
+import CircularJson from "circular-json";
 
-export class PlayerEngine {
+class PlayerEngine {
   constructor(protected _player: Player) {}
 
   get player() {
@@ -10,4 +11,10 @@ export class PlayerEngine {
   createPlayer() {}
   loadPlayer() {}
   savePlayer() {}
+
+  serialize() {
+    return CircularJson.stringify(this);
+  }
 }
+
+export { PlayerEngine };

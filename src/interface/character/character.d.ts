@@ -6,7 +6,7 @@ export interface ICharacter {
   name: string;
   age: number;
   gender: GENDER;
-  occupation: Occupation | null;
+  occupation?: Occupation;
   health: Health;
   money: number;
 }

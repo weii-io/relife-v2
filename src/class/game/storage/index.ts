@@ -1,28 +1,31 @@
 export class GameStorage {
   private db!: IDBDatabase;
 
-  constructor(private dbName: string, private version: number) {
-    this.init();
-  }
+  constructor(private dbName: string, private version: number) {}
 
-  private init(): void {
-    const request = indexedDB.open(this.dbName, this.version);
+  public async init(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, this.version);
 
-    request.onerror = (event) => {
-      console.log("Error opening IndexedDB:", event);
-    };
+      request.onerror = (event) => {
+        console.log("Error opening IndexedDB:", event);
+        reject(new Error("Error opening IndexedDB"));
+      };
 
-    request.onsuccess = (event) => {
-      this.db = (event.target as IDBOpenDBRequest).result;
-    };
+      request.onsuccess = (event) => {
+        this.db = (event.target as IDBOpenDBRequest).result;
+        resolve();
+      };
 
-    // TODO: review this code fragment
-    request.onupgradeneeded = (event) => {
-      this.db = (event.target as IDBOpenDBRequest).result;
-      if (!this.db.objectStoreNames.contains("gameState")) {
-        this.db.createObjectStore("gameState", { keyPath: "id" });
-      }
-    };
+      request.onupgradeneeded = (event) => {
+        this.db = (event.target as IDBOpenDBRequest).result;
+        // create object store name here
+        if (!this.db.objectStoreNames.contains("gameState")) {
+          this.db.createObjectStore("gameState", { keyPath: "id" });
+        }
+        // Note: We don't resolve the promise here because the onsuccess event will be fired after onupgradeneeded
+      };
+    });
   }
 
   public write(objectStoreName: string, key: any, data: any): Promise<void> {

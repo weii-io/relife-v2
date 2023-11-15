@@ -1,5 +1,5 @@
 import { ICharacter } from "../character";
 
-export interface IPlayer {
+export interface IPlayer extends ICharacter {
   inventory: string[];
 }
