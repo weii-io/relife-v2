@@ -20,8 +20,8 @@ export class GameStorage {
       request.onupgradeneeded = (event) => {
         this.db = (event.target as IDBOpenDBRequest).result;
         // create object store name here
-        if (!this.db.objectStoreNames.contains("gameState")) {
-          this.db.createObjectStore("gameState", { keyPath: "id" });
+        if (!this.db.objectStoreNames.contains("engines")) {
+          this.db.createObjectStore("engines", { keyPath: "id" });
         }
         // Note: We don't resolve the promise here because the onsuccess event will be fired after onupgradeneeded
       };
