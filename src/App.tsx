@@ -58,6 +58,22 @@ function App() {
 
   if (loading) return <div>Loading...</div>;
   else return <div>{JSON.stringify(game)}</div>;
+  return (
+    <div>
+      <div>
+        {/* player avatar */}
+        <img
+          src={`assets/player_avatar/age-${game.player.age}-${game.player.gender}.png`}
+          alt="player-avatar"
+          width={50}
+          height={50}
+        />
+        <span>{game.player.name}</span>
+      </div>
+      <span>Age: {game.player.age} years</span>
+      <div>I was born a {game.player.gender}.</div>
+    </div>
+  );
 }
 
 export default App;
