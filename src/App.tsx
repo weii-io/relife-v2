@@ -6,6 +6,8 @@ import { CharacterEngine } from "./class/game/engines/character";
 import { PlayerEngine } from "./class/game/engines/player";
 import { Player } from "./class/player";
 import { removeUnderscorePrefix } from "./utils";
+import { IGameData } from "./interface/game";
+import { Character } from "./class/character";
 
 function App() {
   const [game] = React.useState(new Game());
@@ -15,40 +17,32 @@ function App() {
   React.useEffect(() => {
     (async () => {
       await game.storage.init();
-      const engines = ["character", "player", "world"];
-      const storedData = await Promise.all(
-        engines.map(async (engine) => {
-          return game.storage.read("engines", engine);
-        })
-      );
-      if (storedData.every((data) => data === null)) {
-        // save data here
-        await Promise.all([
-          game.storage.write("engines", "character", game.characterEngine),
-          game.storage.write("engines", "player", game.playerEngine),
-          game.storage.write("engines", "world", game.worldEngine),
-        ]);
+      const data: IGameData = await game.load();
+
+      // data is empty
+      if (Object.keys(data).length === 0) {
+        await Promise.all(game.init());
       } else {
-        console.log(game.storage.read("engines", "player"));
-        const _playerEngine = removeUnderscorePrefix(
-          await game.storage.read("engines", "player")
-        ) as PlayerEngine;
-        // const _worldEngine = removeUnderscorePrefix(
-        //   await game.storage.read("gameState", "worldEngine")
-        // );
-        // const _characterEngine = removeUnderscorePrefix(
-        //   await game.storage.read("gameState", "characterEngine")
-        // );
+        // data is not empty
+        // clean data
+        data["characters"] = data.characters.map((_character: any) => {
+          delete _character["id"];
 
-        // // read from saved data
-        const worldEngine = new WorldEngine();
-        const characterEngine = new CharacterEngine();
-        const playerEngine = new PlayerEngine(new Player(_playerEngine.player));
+          let character;
+          if (_character._role === "npc")
+            character = new Character(removeUnderscorePrefix(_character));
+          else character = new Player(removeUnderscorePrefix(_character));
+          return character;
+        });
+        // TODO: inititalize player by querying character who have player role in database
+        const player = data.characters.filter(
+          (character) => character.role === "player"
+        )[0] as Player;
 
-        game.worldEngine = worldEngine;
-        game.characterEngine = characterEngine;
-        game.playerEngine = playerEngine;
+        // initialize existing player
+        game.playerEngine.load(player);
       }
+
       setLoading(false);
     })();
   }, [game]);

@@ -7,6 +7,7 @@ export class Player extends Character implements IPlayer {
   constructor(properties: IPlayer) {
     super(properties);
     this._inventory = properties.inventory;
+    this._role = "player";
   }
 
   get inventory() {

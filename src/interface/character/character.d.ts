@@ -1,6 +1,6 @@
 import { Health } from "../../class/health/health";
 import { Occupation } from "../../class/occupation";
-import { GENDER } from "../../type";
+import { CHARACTER_ROLE, GENDER } from "../../type";
 
 export interface ICharacter {
   name: string;
@@ -9,4 +9,6 @@ export interface ICharacter {
   occupation?: Occupation;
   health: Health;
   money: number;
+  id: string;
+  role: CHARACTER_ROLE;
 }

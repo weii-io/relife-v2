@@ -1,4 +1,5 @@
 import { GENDER } from "../../type";
+import { Character } from "../character";
 import { Health } from "../health/health";
 import { Occupation } from "../occupation";
 import { Player } from "../player";
@@ -42,6 +43,37 @@ export class Game {
       })
     );
     this._worldEngine = new WorldEngine();
+  }
+
+  // will return a bunch of promise in order of fulfillment priority
+  init() {
+    const promises = [];
+    // save player to db
+    promises.push(
+      this.storage.write("characters", this.player.id, this.player)
+    );
+    // TODO: create relationship and store relationship in database by id
+    // idea: can store all characters in game using browser memory
+
+    // create player's parent
+    const parents = (this._characterEngine as CharacterEngine).generateParent(
+      this.player.name.split(" ")[1]
+    );
+    // save player's parents to database
+    parents.forEach((parent) =>
+      promises.push(this.storage.write("characters", parent.id, parent))
+    );
+
+    return promises;
+  }
+
+  async load() {
+    const data: any = {};
+    // load characters from db
+    const characters: Character[] = await this.storage.readAll("characters");
+    if (characters.length > 0) data["characters"] = characters;
+
+    return data;
   }
 
   get version() {

@@ -20,8 +20,8 @@ export class GameStorage {
       request.onupgradeneeded = (event) => {
         this.db = (event.target as IDBOpenDBRequest).result;
         // create object store name here
-        if (!this.db.objectStoreNames.contains("engines")) {
-          this.db.createObjectStore("engines", { keyPath: "id" });
+        if (!this.db.objectStoreNames.contains("characters")) {
+          this.db.createObjectStore("characters", { keyPath: "id" });
         }
         // Note: We don't resolve the promise here because the onsuccess event will be fired after onupgradeneeded
       };
@@ -52,11 +52,35 @@ export class GameStorage {
     });
   }
 
-  public read(objectStoreName: string, key: any): Promise<any | null> {
+  public readOne(objectStoreName: string, key: any): Promise<any | null> {
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction([objectStoreName], "readonly");
       const objectStore = transaction.objectStore(objectStoreName);
       const request = objectStore.get(key);
+
+      request.onerror = (event) => {
+        console.error(
+          `Error reading from ${objectStoreName} in IndexedDB:`,
+          event
+        );
+        reject(event);
+      };
+
+      request.onsuccess = () => {
+        if (request.result) {
+          resolve(request.result);
+        } else {
+          resolve(null);
+        }
+      };
+    });
+  }
+
+  public readAll(objectStoreName: string): Promise<any | null> {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([objectStoreName], "readonly");
+      const objectStore = transaction.objectStore(objectStoreName);
+      const request = objectStore.getAll();
 
       request.onerror = (event) => {
         console.error(
