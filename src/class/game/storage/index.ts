@@ -23,6 +23,10 @@ export class GameStorage {
         if (!this.db.objectStoreNames.contains("characters")) {
           this.db.createObjectStore("characters", { keyPath: "id" });
         }
+
+        if (!this.db.objectStoreNames.contains("relationships")) {
+          this.db.createObjectStore("relationships", { keyPath: "id" });
+        }
         // Note: We don't resolve the promise here because the onsuccess event will be fired after onupgradeneeded
       };
     });

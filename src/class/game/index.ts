@@ -64,6 +64,9 @@ export class Game {
       promises.push(this.storage.write("characters", parent.id, parent))
     );
 
+    // TODO: work on relationships table
+    // save relationships to db
+
     return promises;
   }
 
