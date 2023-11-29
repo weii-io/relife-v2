@@ -1,9 +1,6 @@
 import React from "react";
 import "./App.css";
 import { Game } from "./class/game";
-import { WorldEngine } from "./class/game/engines/world";
-import { CharacterEngine } from "./class/game/engines/character";
-import { PlayerEngine } from "./class/game/engines/player";
 import { Player } from "./class/player";
 import { removeUnderscorePrefix } from "./utils";
 import { IGameData } from "./interface/game";
@@ -34,7 +31,6 @@ function App() {
           else character = new Player(removeUnderscorePrefix(_character));
           return character;
         });
-        // TODO: inititalize player by querying character who have player role in database
         const player = data.characters.filter(
           (character) => character.role === "player"
         )[0] as Player;
